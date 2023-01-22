@@ -20,7 +20,7 @@ public class Repository {
         this.template = template;
     }
 
-    private static String read(String scriptFileName) {
+    public static String read(String scriptFileName) {
         try (InputStream is = new ClassPathResource(scriptFileName).getInputStream();
              BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is))) {
             return bufferedReader.lines().collect(Collectors.joining("\n"));
@@ -30,7 +30,7 @@ public class Repository {
     }
 
     public List<String> getProductName(String name) {
-        List<String> result = template.queryForList(scriptFileName, Map.of("name", name), String.class);
+        List<String> result = template.queryForList(scriptFileName, MapSqlParameterSource("name", name), String.class);
         System.out.println(result);
         return result;
     }
